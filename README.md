@@ -14,6 +14,31 @@ A modern, production-ready template for building full-stack React applications u
 - 🎉 TailwindCSS for styling
 - 📖 [React Router docs](https://reactrouter.com/)
 
+## Project Structure
+
+The project is structured with the application logic inside the `app` directory.
+
+```
+├── app/                 # Application source code
+│   ├── components/      # UI components
+│   ├── configs/         # Configs for the app
+│   ├── hocs/            # Higher-order components
+│   ├── hooks/           # Custom React hooks
+│   ├── layouts/         # Layout components
+│   ├── libs/            # Reusable libraries
+│   ├── pages/           # Configs for the app
+│   ├── pages/           # UI components for your pages
+│   ├── routes/          # Route modules (loaders, actions, meta, etc.)
+│   ├── styles/          # Global styles
+│   ├── utils/           # Utility functions
+│   ├── root.tsx         # The root layout component for the app
+│   └── routes.ts        # The main route configuration file
+├── public/              # Static assets (e.g., favicon.ico)
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
+
 ## Getting Started
 
 ### Installation
