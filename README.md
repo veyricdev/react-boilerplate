@@ -25,7 +25,7 @@ The project is structured with the application logic inside the `app` directory.
 │   ├── hocs/            # Higher-order components
 │   ├── hooks/           # Custom React hooks
 │   ├── layouts/         # Layout components
-│   ├── libs/            # Reusable libraries
+│   ├── lib/            # Reusable libraries
 │   ├── pages/           # Configs for the app
 │   ├── pages/           # UI components for your pages
 │   ├── routes/          # Route modules (loaders, actions, meta, etc.)
