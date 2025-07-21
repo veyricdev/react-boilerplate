@@ -2,3 +2,5 @@ public/
 build/
 dist/
 .react-router/
+
+stats.html

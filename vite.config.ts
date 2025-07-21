@@ -4,6 +4,7 @@ import { defineConfig, loadEnv, type ConfigEnv, type UserConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import devtoolsJson from 'vite-plugin-devtools-json'
 import dayjs from 'dayjs'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 import pkg from './package.json'
 
@@ -16,6 +17,8 @@ const __APP_INFO__ = {
 
 export default defineConfig(({ mode }: ConfigEnv) => {
   const { PORT, PORT_PREVIEW, VITE_DROP_CONSOLE } = loadEnv(mode, CWD)
+
+  const isProd = mode === 'production'
 
   return {
     define: {
@@ -30,6 +33,19 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     preview: {
       port: parseInt(PORT_PREVIEW || '3000'),
     },
+    plugins: [
+      devtoolsJson(),
+      tailwindcss(),
+      reactRouter(),
+      tsconfigPaths(),
+
+      visualizer({
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+        template: 'treemap',
+      }),
+    ],
     esbuild: {
       pure: VITE_DROP_CONSOLE === 'true' ? ['console.log'] : [],
       drop: VITE_DROP_CONSOLE === 'true' ? ['debugger'] : [],
@@ -38,12 +54,17 @@ export default defineConfig(({ mode }: ConfigEnv) => {
         'top-level-await': true,
       },
     },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router', 'axios', 'dayjs'],
+      exclude: ['lucide-react'],
+    },
     build: {
       target: 'es2015',
       minify: 'esbuild',
       cssTarget: 'chrome80',
+      sourcemap: !isProd,
+      cssCodeSplit: true,
       chunkSizeWarningLimit: 2000,
     },
-    plugins: [devtoolsJson(), tailwindcss(), reactRouter(), tsconfigPaths()],
   } as UserConfig
 })
