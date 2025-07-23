@@ -1,5 +1,6 @@
-import { Resource } from './Resource'
 import axiosClient from '~/lib/axios'
+
+import { Resource } from './Resource'
 
 /**
  * Represents a Post object from the API, typically associated with a user.

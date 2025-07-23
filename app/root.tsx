@@ -1,8 +1,9 @@
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 
-import type { Route } from './+types/root'
-import '~/styles/app.css'
 import { Toaster } from '~/components/ui/sonner'
+import '~/styles/app.css'
+
+import type { Route } from './+types/root'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

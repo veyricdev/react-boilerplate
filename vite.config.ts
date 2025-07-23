@@ -1,10 +1,10 @@
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig, loadEnv, type ConfigEnv, type UserConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
-import devtoolsJson from 'vite-plugin-devtools-json'
 import dayjs from 'dayjs'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig, loadEnv, type ConfigEnv, type UserConfig } from 'vite'
+import devtoolsJson from 'vite-plugin-devtools-json'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 import pkg from './package.json'
 

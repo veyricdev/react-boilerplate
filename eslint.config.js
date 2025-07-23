@@ -2,6 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import importPlugin from 'eslint-plugin-import'
 import tseslint from 'typescript-eslint'
 import { globalIgnores } from 'eslint/config'
 
@@ -14,6 +15,8 @@ export default tseslint.config([
       tseslint.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -22,6 +25,52 @@ export default tseslint.config([
     rules: {
       'react-refresh/only-export-components': 'off',
       'no-empty-pattern': 'off',
+
+      // import rules
+      'import/no-unresolved': 'off',
+      'import/first': 'warn',
+      'import/newline-after-import': 'warn',
+      'import/no-duplicates': 'warn',
+      'import/no-extraneous-dependencies': 'off',
+      'import/prefer-default-export': 'off',
+      'import/no-named-as-default': 'off',
+      'import/no-cycle': 'off',
+      'import/order': [
+        'warn',
+        {
+          groups: [
+            'builtin', // Node.js built-in module
+            'external', // third-party module
+            'internal', // module inside the application
+            'parent', // module imported from the parent directory
+            ['sibling', 'index'], // sibling modules with the same or higher directory
+            'object',
+            'type',
+          ],
+          pathGroups: [
+            {
+              pattern: '~/**',
+              group: 'internal',
+            },
+            {
+              pattern: '#/**',
+              group: 'type',
+            },
+            {
+              pattern: '*.{scss,css,less,styl,stylus}',
+              group: 'parent',
+            },
+            {
+              pattern: '*.{js,jsx,ts,tsx}',
+              group: 'sibling',
+            },
+          ],
+          'newlines-between': 'always', // Insert blank lines between groups
+          pathGroupsExcludedImportTypes: ['sibling', 'index'],
+          warnOnUnassignedImports: true,
+          alphabetize: { order: 'asc', caseInsensitive: true }, // For each group, sort alphabetically.
+        },
+      ],
     },
   },
 ])
