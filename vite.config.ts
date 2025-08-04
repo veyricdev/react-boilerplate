@@ -56,7 +56,6 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router', 'axios', 'dayjs'],
-      exclude: ['lucide-react'],
     },
     build: {
       target: 'es2015',

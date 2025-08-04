@@ -26,6 +26,7 @@ export default tseslint.config([
       'react-refresh/only-export-components': 'off',
       'no-empty-pattern': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
 
       // import rules
       'import/no-named-as-default-member': 'off',
