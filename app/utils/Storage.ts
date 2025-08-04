@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Create a local cache object
  * @param {string=} prefixKey -
@@ -58,6 +57,10 @@ export const createStorage = ({
         }
       }
       return def
+    }
+
+    getStringItem(key: string): string | null {
+      return this.storage.getItem(this.getKey(key))
     }
 
     /**

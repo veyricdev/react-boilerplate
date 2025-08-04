@@ -2,6 +2,7 @@ import { ThemeProvider } from 'next-themes'
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 
 import { Toaster } from '~/components/ui/sonner'
+import '~/locales/i18n'
 import '~/styles/app.css'
 
 import type { Route } from './+types/root'

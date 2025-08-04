@@ -4,6 +4,7 @@
     "EditorConfig.EditorConfig",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
-    "heybourn.headwind"
+    "heybourn.headwind",
+    "Lokalise.i18n-ally"
   ]
 }

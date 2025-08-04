@@ -25,8 +25,10 @@ export default tseslint.config([
     rules: {
       'react-refresh/only-export-components': 'off',
       'no-empty-pattern': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
 
       // import rules
+      'import/no-named-as-default-member': 'off',
       'import/no-unresolved': 'off',
       'import/first': 'warn',
       'import/newline-after-import': 'warn',

@@ -15,5 +15,6 @@
   "files.associations": {
     "*.css": "tailwindcss",
     "*.scss": "tailwindcss"
-  }
+  },
+  "i18n-ally.localesPaths": ["app/locales", "app/locales/lang"]
 }
