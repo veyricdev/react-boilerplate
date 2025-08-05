@@ -5,5 +5,6 @@ export default [
     index('routes/home.tsx'),
     route('about', 'routes/about.tsx'),
     route('table-advanced', 'routes/table-advanced.tsx'),
+    route('file-manager', 'routes/file-manager.tsx'),
   ]),
 ] satisfies RouteConfig
