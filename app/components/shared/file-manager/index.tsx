@@ -1,3 +1,4 @@
+import { Folder } from 'lucide-react'
 import { createContext, use, useState, type DragEvent } from 'react'
 import { useSearchParams } from 'react-router'
 
@@ -142,8 +143,19 @@ export function FileManager() {
               onDrop={handleDrop}
               data-dragging={(dragUploadState.isDragging && !dragUploadState.isMove) || undefined}
             >
-              {viewMode === 'grid' && <ContentGridView />}
-              {viewMode === 'list' && <ContentListView />}
+              {files.length ? (
+                <>
+                  {viewMode === 'grid' && <ContentGridView />}
+                  {viewMode === 'list' && <ContentListView />}
+                </>
+              ) : (
+                <div className='flex h-full flex-col items-center justify-center text-center'>
+                  <Folder className='text-muted-foreground mb-4 h-16 w-16' />
+                  <h3 className='text-lg font-medium'>No files found</h3>
+                  <p className='text-muted-foreground'>Upload files or create a folder to get started</p>
+                  <p className='text-muted-foreground mt-2'>Drag and drop files here to upload</p>
+                </div>
+              )}
             </CardContent>
           </ContextMenuTrigger>
           <ContextMenuContent container />
