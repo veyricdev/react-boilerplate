@@ -2,10 +2,13 @@ import { createContext, use, useState, type DragEvent } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
+import { ContextMenu, ContextMenuTrigger } from '~/components/ui/context-menu'
 
 import ActionDock from './action-dock'
 import ContentGridView from './content-grid-view'
 import ContentListView from './content-list-view'
+import ContextMenuContent from './context-menu-content'
+import FileSearch from './file-search'
 import Footer from './footer'
 import { prefixPath } from './helpers'
 import PathBreadcrumb from './path-breadcrumb'
@@ -123,22 +126,28 @@ export function FileManager() {
       <Card className='pt-4 pb-3 h-svh rounded-none text-sm gap-4 z-10 relative min-h-96'>
         <CardHeader className='px-4'>
           <CardTitle className='text-lg text-primary font-semibold'>File Management</CardTitle>
-          <CardDescription>
+          <CardDescription className='flex gap-2 flex-col sm:flex-row'>
             <PathBreadcrumb />
+            <FileSearch />
           </CardDescription>
           <ActionDock />
         </CardHeader>
-        <CardContent
-          className='px-4 flex-1 py-4 overflow-y-auto scroll-smooth [scrollbar-width:thin] border-t data-[dragging=true]:bg-accent/25'
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          data-dragging={(dragUploadState.isDragging && !dragUploadState.isMove) || undefined}
-        >
-          {viewMode === 'grid' && <ContentGridView />}
-          {viewMode === 'list' && <ContentListView />}
-        </CardContent>
+        <ContextMenu>
+          <ContextMenuTrigger asChild>
+            <CardContent
+              className='px-4 py-4 flex-1 scroll-smooth [scrollbar-width:thin] overflow-y-auto border-t data-[dragging=true]:bg-accent/25'
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              data-dragging={(dragUploadState.isDragging && !dragUploadState.isMove) || undefined}
+            >
+              {viewMode === 'grid' && <ContentGridView />}
+              {viewMode === 'list' && <ContentListView />}
+            </CardContent>
+          </ContextMenuTrigger>
+          <ContextMenuContent container />
+        </ContextMenu>
         <Footer />
       </Card>
     </FileManagerContext.Provider>

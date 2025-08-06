@@ -32,7 +32,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           {children}
-          <Toaster />
+          <Toaster richColors closeButton />
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />

@@ -3,6 +3,7 @@ import { useState, type DragEvent } from 'react'
 import { Link } from 'react-router'
 
 import { Button } from '~/components/ui/button'
+import { ContextMenu, ContextMenuTrigger } from '~/components/ui/context-menu'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +15,7 @@ import { cn } from '~/lib/utils'
 import { formatBytes } from '~/utils/helpers'
 
 import { useFileManager } from '.'
+import ContextMenuContent from './context-menu-content'
 import { getFilePreview, getKey, prefixPath } from './helpers'
 
 import type { FileItem } from './type'
@@ -92,62 +94,67 @@ export default function ContentListView() {
         <tbody>
           {files?.map((file) => {
             return (
-              <tr
-                onClick={() => setFileSelected(file)}
-                onDoubleClick={() => file.isFolder && openFolder(file)}
-                className={cn(
-                  'border-b transition-colors data-[file=true]:cursor-not-allowed data-[dragging=true]:border-dashed data-[dragging=true]:border-ring data-[file=true]:border-destructive data-[item-id]:border-destructive',
-                  fileSelected?.id === file.id ? 'bg-ring/25' : 'hover:bg-accent/10'
-                )}
-                title={file.name}
-                onDragEnter={(e) => handleItemDragEnter(e, file)}
-                onDragLeave={handleItemDragLeave}
-                onDragOver={(e) => handleItemDragOver(e, file)}
-                onDrop={(e) => handleItemDrop(e, file)}
-                onDragStart={(e) => handleItemDragStart(e, file)}
-                onDragEnd={handleItemDragEnd}
-                data-item-id={itemDrag?.id === file.id ? itemDrag.id : undefined}
-                data-item-path={itemDrag?.id === file.id ? prefixPath(itemDrag.path) : undefined}
-                data-dragging={
-                  (dragUploadState.isDragging && dragUploadState.isMove && file.id === dragUploadState.id) || undefined
-                }
-                data-file={
-                  (dragUploadState.isDragging &&
-                    dragUploadState.isMove &&
-                    !file.isFolder &&
-                    file.id === dragUploadState.id) ||
-                  undefined
-                }
-                draggable
-                key={getKey(file)}
-              >
-                <td className='p-3'>
-                  <div className='flex items-center gap-2'>
-                    <span className='size-12'>
-                      {file.isFolder ? (
-                        <Folder className='size-12 text-blue-500' />
-                      ) : (
-                        getFilePreview({ file: { type: file.type!, name: file.name, url: file.url } })
-                      )}
-                    </span>
-                    <span>{file.name}</span>
-                  </div>
-                </td>
-                <td className='text-muted-foreground hidden p-3 sm:table-cell'>
-                  {file.isFolder ? '—' : formatBytes(file.size!)}
-                </td>
-                <td className='text-muted-foreground hidden p-3 md:table-cell'>
-                  {file.lastModified && new Date(file.lastModified).toLocaleDateString()}
-                </td>
-                <td className='p-3 text-right'>
-                  <div className='flex justify-end'>
-                    <Button variant='ghost' size='icon' className='mr-2 h-8 w-8' title='Preview(⌘O)'>
-                      <Eye className='h-4 w-4' />
-                    </Button>
-                    <ItemActionMenu file={file} />
-                  </div>
-                </td>
-              </tr>
+              <ContextMenu key={getKey(file)}>
+                <ContextMenuTrigger asChild>
+                  <tr
+                    onClick={() => setFileSelected(file)}
+                    onDoubleClick={() => file.isFolder && openFolder(file)}
+                    className={cn(
+                      'border-b transition-colors data-[file=true]:cursor-not-allowed data-[dragging=true]:border-dashed data-[dragging=true]:border-ring data-[file=true]:border-destructive data-[item-id]:border-destructive',
+                      fileSelected?.id === file.id ? 'bg-ring/25' : 'hover:bg-accent/10'
+                    )}
+                    title={file.name}
+                    onDragEnter={(e) => handleItemDragEnter(e, file)}
+                    onDragLeave={handleItemDragLeave}
+                    onDragOver={(e) => handleItemDragOver(e, file)}
+                    onDrop={(e) => handleItemDrop(e, file)}
+                    onDragStart={(e) => handleItemDragStart(e, file)}
+                    onDragEnd={handleItemDragEnd}
+                    data-item-id={itemDrag?.id === file.id ? itemDrag.id : undefined}
+                    data-item-path={itemDrag?.id === file.id ? prefixPath(itemDrag.path) : undefined}
+                    data-dragging={
+                      (dragUploadState.isDragging && dragUploadState.isMove && file.id === dragUploadState.id) ||
+                      undefined
+                    }
+                    data-file={
+                      (dragUploadState.isDragging &&
+                        dragUploadState.isMove &&
+                        !file.isFolder &&
+                        file.id === dragUploadState.id) ||
+                      undefined
+                    }
+                    draggable
+                  >
+                    <td className='p-3'>
+                      <div className='flex items-center gap-2'>
+                        <span className='size-12'>
+                          {file.isFolder ? (
+                            <Folder className='size-12 text-blue-500' />
+                          ) : (
+                            getFilePreview({ file: { type: file.type!, name: file.name, url: file.url } })
+                          )}
+                        </span>
+                        <span>{file.name}</span>
+                      </div>
+                    </td>
+                    <td className='text-muted-foreground hidden p-3 sm:table-cell'>
+                      {file.isFolder ? '—' : formatBytes(file.size!)}
+                    </td>
+                    <td className='text-muted-foreground hidden p-3 md:table-cell'>
+                      {file.lastModified && new Date(file.lastModified).toLocaleDateString()}
+                    </td>
+                    <td className='p-3 text-right'>
+                      <div className='flex justify-end'>
+                        <Button variant='ghost' size='icon' className='mr-2 h-8 w-8' title='Preview(⌘O)'>
+                          <Eye className='h-4 w-4' />
+                        </Button>
+                        <ItemActionMenu file={file} />
+                      </div>
+                    </td>
+                  </tr>
+                </ContextMenuTrigger>
+                <ContextMenuContent item={file} />
+              </ContextMenu>
             )
           })}
         </tbody>

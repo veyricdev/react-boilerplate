@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { FolderPlus } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '~/components/ui/button'
@@ -39,7 +39,7 @@ export default function ButtonCreateFolder() {
         className='bg-primary hover:bg-primary/50 size-10 rounded-full shadow-lg'
         title='New Folder'
       >
-        <Plus className='size-4' />
+        <FolderPlus className='size-4' />
         <span className='sr-only'>New Folder</span>
       </Button>
 

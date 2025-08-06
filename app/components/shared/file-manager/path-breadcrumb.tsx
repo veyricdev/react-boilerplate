@@ -20,36 +20,40 @@ export default function PathBreadcrumb() {
   }
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbPage
-            className={cn(currentPath === '/' || 'hover:text-foreground transition-colors text-inherit cursor-pointer')}
-            onClick={() => currentPath === '/' || changeSearchParams('path', '')}
-          >
-            <HomeIcon size={14} aria-hidden='true' />
-            <span className='sr-only'>Home</span>
-          </BreadcrumbPage>
-        </BreadcrumbItem>
-        {!!currentPathArr?.length || <BreadcrumbSeparator />}
-        {currentPathArr?.map((path, index) => (
-          <Fragment key={index}>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              {index === currentPathArr.length - 1 ? (
-                <BreadcrumbPage>{path}</BreadcrumbPage>
-              ) : (
-                <BreadcrumbPage
-                  onClick={() => onPathClick(index)}
-                  className='hover:text-foreground transition-colors text-inherit cursor-pointer'
-                >
-                  {path}
-                </BreadcrumbPage>
+    <div className='flex-1'>
+      <Breadcrumb>
+        <BreadcrumbList className='bg-input/30 border-input rounded-md border px-3 py-2 shadow-xs'>
+          <BreadcrumbItem>
+            <BreadcrumbPage
+              className={cn(
+                currentPath === '/' || 'hover:text-foreground transition-colors text-inherit cursor-pointer'
               )}
-            </BreadcrumbItem>
-          </Fragment>
-        ))}
-      </BreadcrumbList>
-    </Breadcrumb>
+              onClick={() => currentPath === '/' || changeSearchParams('path', '')}
+            >
+              <HomeIcon size={14} aria-hidden='true' />
+              <span className='sr-only'>Home</span>
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+          {!!currentPathArr?.length || <BreadcrumbSeparator />}
+          {currentPathArr?.map((path, index) => (
+            <Fragment key={index}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {index === currentPathArr.length - 1 ? (
+                  <BreadcrumbPage>{path}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbPage
+                    onClick={() => onPathClick(index)}
+                    className='hover:text-foreground transition-colors text-inherit cursor-pointer'
+                  >
+                    {path}
+                  </BreadcrumbPage>
+                )}
+              </BreadcrumbItem>
+            </Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
   )
 }
