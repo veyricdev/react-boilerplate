@@ -1,4 +1,4 @@
-import { createContext, use, useState } from 'react'
+import { createContext, use, useState, type DragEvent } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
@@ -9,6 +9,8 @@ import ContentListView from './content-list-view'
 import Footer from './footer'
 import { prefixPath } from './helpers'
 import PathBreadcrumb from './path-breadcrumb'
+
+import type { DragUploadState, FileItem, FileManagerContextProps, ViewMode } from './type'
 
 const FileManagerContext = createContext<FileManagerContextProps>({} as FileManagerContextProps)
 
@@ -53,6 +55,12 @@ export function FileManager() {
 
   const [files, setFiles] = useState<FileItem[]>(initialFiles)
   const [fileSelected, setFileSelected] = useState<FileItem | null>(null)
+  const [dragUploadState, setDragUploadState] = useState<DragUploadState>({
+    isDragging: false,
+    path: null,
+    isMove: false,
+    id: '',
+  })
 
   const changeSearchParams = (name: string, value: string) => {
     setSearchParams((searchParams) => {
@@ -63,7 +71,38 @@ export function FileManager() {
   }
 
   const openFolder = (file: FileItem) => {
-    changeSearchParams('path', `${currentPath}/${file.name}`)
+    changeSearchParams('path', `${currentPath === '/' ? '' : currentPath}/${file.name}`)
+  }
+
+  const handleDragEnter = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragUploadState((prev) => ({ ...prev, isDragging: true }))
+  }
+
+  const handleDragOver = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const itemDrag = document.querySelector('[data-item-id]')
+    if (itemDrag) {
+      const path = itemDrag.getAttribute('data-item-path')
+      if (path && currentPath === path) e.dataTransfer.dropEffect = 'none'
+    }
+  }
+
+  const handleDragLeave = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return
+
+    setDragUploadState((prev) => ({ ...prev, isDragging: false }))
+  }
+
+  const handleDrop = (e: DragEvent<HTMLElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('drag drop')
   }
 
   return (
@@ -77,6 +116,8 @@ export function FileManager() {
         changeSearchParams,
         fileSelected,
         setFileSelected,
+        dragUploadState,
+        setDragUploadState,
       }}
     >
       <Card className='pt-4 pb-3 h-svh rounded-none text-sm gap-4 z-10 relative min-h-96'>
@@ -87,7 +128,14 @@ export function FileManager() {
           </CardDescription>
           <ActionDock />
         </CardHeader>
-        <CardContent className='px-4 flex-1 py-4 overflow-y-auto scroll-smooth [scrollbar-width:thin] border-t'>
+        <CardContent
+          className='px-4 flex-1 py-4 overflow-y-auto scroll-smooth [scrollbar-width:thin] border-t data-[dragging=true]:bg-accent/25'
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          data-dragging={(dragUploadState.isDragging && !dragUploadState.isMove) || undefined}
+        >
           {viewMode === 'grid' && <ContentGridView />}
           {viewMode === 'list' && <ContentListView />}
         </CardContent>

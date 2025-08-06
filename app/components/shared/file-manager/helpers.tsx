@@ -8,6 +8,8 @@ import {
   VideoIcon,
 } from 'lucide-react'
 
+import type { FileItem, SortConfig } from './type'
+
 export const getFileIcon = (file: { file: File | { type: string; name: string } }) => {
   const fileType = file.file instanceof File ? file.file.type : file.file.type
   const fileName = file.file instanceof File ? file.file.name : file.file.name

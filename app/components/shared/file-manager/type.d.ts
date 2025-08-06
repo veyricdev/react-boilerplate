@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from 'react'
+
 type FileManagerContextProps = {
   title?: string
   files?: FileItem[]
@@ -8,9 +10,11 @@ type FileManagerContextProps = {
   openFolder: (file: FileItem) => void
   fileSelected: FileItem | null
   setFileSelected: Dispatch<SetStateAction<FileItem | null>>
+  dragUploadState: DragUploadState
+  setDragUploadState: Dispatch<SetStateAction<DragUploadState>>
 }
 
-type FileItem = {
+export type FileItem = {
   id: string
   path: string
   name: string
@@ -21,11 +25,18 @@ type FileItem = {
   lastModified?: string
 }
 
-type ViewMode = 'list' | 'grid'
+export type ViewMode = 'list' | 'grid'
 
-type SortField = 'name' | 'size' | 'modified'
-type SortDirection = 'asc' | 'desc'
-type SortConfig = {
+export type SortField = 'name' | 'size' | 'modified'
+export type SortDirection = 'asc' | 'desc'
+export type SortConfig = {
   field: SortField
   direction: SortDirection
+}
+
+export type DragUploadState = {
+  isDragging?: boolean
+  path?: string | null
+  isMove?: boolean
+  id?: string
 }

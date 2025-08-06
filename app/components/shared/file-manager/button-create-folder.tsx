@@ -7,6 +7,8 @@ import { Input } from '~/components/ui/input'
 
 import { useFileManager } from '.'
 
+import type { FileItem } from './type'
+
 export default function ButtonCreateFolder() {
   const [isCreateFolderOpen, setIsCreateFolderOpen] = useState(false)
   const [newFolderName, setNewFolderName] = useState('')
@@ -23,7 +25,7 @@ export default function ButtonCreateFolder() {
         lastModified: Date.now().toLocaleString(),
       } as FileItem
 
-      setFiles((files: File[]) => [...files, folder])
+      setFiles((files: FileItem[]) => [...files, folder])
       setNewFolderName('')
       setIsCreateFolderOpen(false)
     }

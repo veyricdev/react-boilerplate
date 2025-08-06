@@ -31,8 +31,8 @@ export default function PathBreadcrumb() {
             <span className='sr-only'>Home</span>
           </BreadcrumbPage>
         </BreadcrumbItem>
-        {!!currentPathArr.length || <BreadcrumbSeparator />}
-        {currentPathArr.map((path, index) => (
+        {!!currentPathArr?.length || <BreadcrumbSeparator />}
+        {currentPathArr?.map((path, index) => (
           <Fragment key={index}>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

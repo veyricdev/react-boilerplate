@@ -7,6 +7,8 @@ import { formatBytes } from '~/utils/helpers'
 
 import { useFileManager } from '.'
 
+import type { ViewMode } from './type'
+
 export default function Footer() {
   const [searchParams, setSearchParams] = useSearchParams()
 
