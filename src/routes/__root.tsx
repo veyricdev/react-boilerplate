@@ -2,6 +2,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { env } from '~/env'
 import TanStackQueryDevtools from '~/integrations/tanstack-query/devtools'
 import StoreDevtools from '~/lib/demo-store-devtools'
 import appCss from '~/styles/global.css?url'
@@ -21,7 +22,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter Boilerplate',
+        title: env.VITE_APP_TITLE || 'TanStack Start Starter Boilerplate',
       },
     ],
     links: [
@@ -37,11 +38,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <TanStackDevtools
           config={{

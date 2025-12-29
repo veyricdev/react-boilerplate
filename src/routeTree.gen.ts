@@ -9,50 +9,146 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as appRouteRouteImport } from './routes/(app)/route'
+import { Route as appIndexRouteImport } from './routes/(app)/index'
+import { Route as appPostsRouteRouteImport } from './routes/(app)/posts/route'
+import { Route as appPostsChar123CategoryChar125RouteImport } from './routes/(app)/posts/{-$category}'
+import { Route as appPostsCategorySlugRouteImport } from './routes/(app)/posts/$category/$slug'
 
-const IndexRoute = IndexRouteImport.update({
+const appRouteRoute = appRouteRouteImport.update({
+  id: '/(app)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const appIndexRoute = appIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appPostsRouteRoute = appPostsRouteRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appPostsChar123CategoryChar125Route =
+  appPostsChar123CategoryChar125RouteImport.update({
+    id: '/{-$category}',
+    path: '/{-$category}',
+    getParentRoute: () => appPostsRouteRoute,
+  } as any)
+const appPostsCategorySlugRoute = appPostsCategorySlugRouteImport.update({
+  id: '/$category/$slug',
+  path: '/$category/$slug',
+  getParentRoute: () => appPostsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/posts': typeof appPostsRouteRouteWithChildren
+  '/': typeof appIndexRoute
+  '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
+  '/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/posts': typeof appPostsRouteRouteWithChildren
+  '/': typeof appIndexRoute
+  '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
+  '/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/(app)': typeof appRouteRouteWithChildren
+  '/(app)/posts': typeof appPostsRouteRouteWithChildren
+  '/(app)/': typeof appIndexRoute
+  '/(app)/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
+  '/(app)/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/posts' | '/' | '/posts/{-$category}' | '/posts/$category/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/posts' | '/' | '/posts/{-$category}' | '/posts/$category/$slug'
+  id:
+    | '__root__'
+    | '/(app)'
+    | '/(app)/posts'
+    | '/(app)/'
+    | '/(app)/posts/{-$category}'
+    | '/(app)/posts/$category/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  appRouteRoute: typeof appRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(app)': {
+      id: '/(app)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof appRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(app)/': {
+      id: '/(app)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof appIndexRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/posts': {
+      id: '/(app)/posts'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof appPostsRouteRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/posts/{-$category}': {
+      id: '/(app)/posts/{-$category}'
+      path: '/{-$category}'
+      fullPath: '/posts/{-$category}'
+      preLoaderRoute: typeof appPostsChar123CategoryChar125RouteImport
+      parentRoute: typeof appPostsRouteRoute
+    }
+    '/(app)/posts/$category/$slug': {
+      id: '/(app)/posts/$category/$slug'
+      path: '/$category/$slug'
+      fullPath: '/posts/$category/$slug'
+      preLoaderRoute: typeof appPostsCategorySlugRouteImport
+      parentRoute: typeof appPostsRouteRoute
     }
   }
 }
 
+interface appPostsRouteRouteChildren {
+  appPostsChar123CategoryChar125Route: typeof appPostsChar123CategoryChar125Route
+  appPostsCategorySlugRoute: typeof appPostsCategorySlugRoute
+}
+
+const appPostsRouteRouteChildren: appPostsRouteRouteChildren = {
+  appPostsChar123CategoryChar125Route: appPostsChar123CategoryChar125Route,
+  appPostsCategorySlugRoute: appPostsCategorySlugRoute,
+}
+
+const appPostsRouteRouteWithChildren = appPostsRouteRoute._addFileChildren(
+  appPostsRouteRouteChildren,
+)
+
+interface appRouteRouteChildren {
+  appPostsRouteRoute: typeof appPostsRouteRouteWithChildren
+  appIndexRoute: typeof appIndexRoute
+}
+
+const appRouteRouteChildren: appRouteRouteChildren = {
+  appPostsRouteRoute: appPostsRouteRouteWithChildren,
+  appIndexRoute: appIndexRoute,
+}
+
+const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
+  appRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  appRouteRoute: appRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
