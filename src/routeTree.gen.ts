@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as appPostsRouteRouteImport } from './routes/(app)/posts/route'
 import { Route as appPostsChar123CategoryChar125RouteImport } from './routes/(app)/posts/{-$category}'
 import { Route as appPostsCategorySlugRouteImport } from './routes/(app)/posts/$category/$slug'
@@ -23,6 +24,11 @@ const appIndexRoute = appIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => appRouteRoute,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const appPostsRouteRoute = appPostsRouteRouteImport.update({
   id: '/posts',
@@ -43,12 +49,14 @@ const appPostsCategorySlugRoute = appPostsCategorySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/posts': typeof appPostsRouteRouteWithChildren
+  '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
   '/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRoutesByTo {
   '/posts': typeof appPostsRouteRouteWithChildren
+  '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
   '/posts/$category/$slug': typeof appPostsCategorySlugRoute
@@ -57,19 +65,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
   '/(app)/posts': typeof appPostsRouteRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
   '/(app)/': typeof appIndexRoute
   '/(app)/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
   '/(app)/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/posts' | '/' | '/posts/{-$category}' | '/posts/$category/$slug'
+  fullPaths:
+    | '/posts'
+    | '/login'
+    | '/'
+    | '/posts/{-$category}'
+    | '/posts/$category/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/posts' | '/' | '/posts/{-$category}' | '/posts/$category/$slug'
+  to:
+    | '/posts'
+    | '/login'
+    | '/'
+    | '/posts/{-$category}'
+    | '/posts/$category/$slug'
   id:
     | '__root__'
     | '/(app)'
     | '/(app)/posts'
+    | '/(auth)/login'
     | '/(app)/'
     | '/(app)/posts/{-$category}'
     | '/(app)/posts/$category/$slug'
@@ -77,6 +97,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   appRouteRoute: typeof appRouteRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -94,6 +115,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof appIndexRouteImport
       parentRoute: typeof appRouteRoute
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(app)/posts': {
       id: '/(app)/posts'
@@ -149,6 +177,7 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   appRouteRoute: appRouteRouteWithChildren,
+  authLoginRoute: authLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
