@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as appFileManagerRouteImport } from './routes/(app)/file-manager'
 import { Route as appPostsRouteRouteImport } from './routes/(app)/posts/route'
 import { Route as appPostsChar123CategoryChar125RouteImport } from './routes/(app)/posts/{-$category}'
 import { Route as appPostsCategorySlugRouteImport } from './routes/(app)/posts/$category/$slug'
@@ -29,6 +30,11 @@ const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const appFileManagerRoute = appFileManagerRouteImport.update({
+  id: '/file-manager',
+  path: '/file-manager',
+  getParentRoute: () => appRouteRoute,
 } as any)
 const appPostsRouteRoute = appPostsRouteRouteImport.update({
   id: '/posts',
@@ -49,6 +55,7 @@ const appPostsCategorySlugRoute = appPostsCategorySlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/posts': typeof appPostsRouteRouteWithChildren
+  '/file-manager': typeof appFileManagerRoute
   '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -56,6 +63,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/posts': typeof appPostsRouteRouteWithChildren
+  '/file-manager': typeof appFileManagerRoute
   '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -65,6 +73,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
   '/(app)/posts': typeof appPostsRouteRouteWithChildren
+  '/(app)/file-manager': typeof appFileManagerRoute
   '/(auth)/login': typeof authLoginRoute
   '/(app)/': typeof appIndexRoute
   '/(app)/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -74,6 +83,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/posts'
+    | '/file-manager'
     | '/login'
     | '/'
     | '/posts/{-$category}'
@@ -81,6 +91,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/posts'
+    | '/file-manager'
     | '/login'
     | '/'
     | '/posts/{-$category}'
@@ -89,6 +100,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/(app)'
     | '/(app)/posts'
+    | '/(app)/file-manager'
     | '/(auth)/login'
     | '/(app)/'
     | '/(app)/posts/{-$category}'
@@ -122,6 +134,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(app)/file-manager': {
+      id: '/(app)/file-manager'
+      path: '/file-manager'
+      fullPath: '/file-manager'
+      preLoaderRoute: typeof appFileManagerRouteImport
+      parentRoute: typeof appRouteRoute
     }
     '/(app)/posts': {
       id: '/(app)/posts'
@@ -163,11 +182,13 @@ const appPostsRouteRouteWithChildren = appPostsRouteRoute._addFileChildren(
 
 interface appRouteRouteChildren {
   appPostsRouteRoute: typeof appPostsRouteRouteWithChildren
+  appFileManagerRoute: typeof appFileManagerRoute
   appIndexRoute: typeof appIndexRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
   appPostsRouteRoute: appPostsRouteRouteWithChildren,
+  appFileManagerRoute: appFileManagerRoute,
   appIndexRoute: appIndexRoute,
 }
 
