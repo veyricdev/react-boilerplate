@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as appIndexRouteImport } from './routes/(app)/index'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as appSchemaFormDemoRouteImport } from './routes/(app)/schema-form-demo'
 import { Route as appFileManagerRouteImport } from './routes/(app)/file-manager'
 import { Route as appPostsRouteRouteImport } from './routes/(app)/posts/route'
 import { Route as appPostsChar123CategoryChar125RouteImport } from './routes/(app)/posts/{-$category}'
@@ -30,6 +31,11 @@ const authLoginRoute = authLoginRouteImport.update({
   id: '/(auth)/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
+} as any)
+const appSchemaFormDemoRoute = appSchemaFormDemoRouteImport.update({
+  id: '/schema-form-demo',
+  path: '/schema-form-demo',
+  getParentRoute: () => appRouteRoute,
 } as any)
 const appFileManagerRoute = appFileManagerRouteImport.update({
   id: '/file-manager',
@@ -56,6 +62,7 @@ const appPostsCategorySlugRoute = appPostsCategorySlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/posts': typeof appPostsRouteRouteWithChildren
   '/file-manager': typeof appFileManagerRoute
+  '/schema-form-demo': typeof appSchemaFormDemoRoute
   '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/posts': typeof appPostsRouteRouteWithChildren
   '/file-manager': typeof appFileManagerRoute
+  '/schema-form-demo': typeof appSchemaFormDemoRoute
   '/login': typeof authLoginRoute
   '/': typeof appIndexRoute
   '/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   '/(app)': typeof appRouteRouteWithChildren
   '/(app)/posts': typeof appPostsRouteRouteWithChildren
   '/(app)/file-manager': typeof appFileManagerRoute
+  '/(app)/schema-form-demo': typeof appSchemaFormDemoRoute
   '/(auth)/login': typeof authLoginRoute
   '/(app)/': typeof appIndexRoute
   '/(app)/posts/{-$category}': typeof appPostsChar123CategoryChar125Route
@@ -84,6 +93,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/posts'
     | '/file-manager'
+    | '/schema-form-demo'
     | '/login'
     | '/'
     | '/posts/{-$category}'
@@ -92,6 +102,7 @@ export interface FileRouteTypes {
   to:
     | '/posts'
     | '/file-manager'
+    | '/schema-form-demo'
     | '/login'
     | '/'
     | '/posts/{-$category}'
@@ -101,6 +112,7 @@ export interface FileRouteTypes {
     | '/(app)'
     | '/(app)/posts'
     | '/(app)/file-manager'
+    | '/(app)/schema-form-demo'
     | '/(auth)/login'
     | '/(app)/'
     | '/(app)/posts/{-$category}'
@@ -134,6 +146,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(app)/schema-form-demo': {
+      id: '/(app)/schema-form-demo'
+      path: '/schema-form-demo'
+      fullPath: '/schema-form-demo'
+      preLoaderRoute: typeof appSchemaFormDemoRouteImport
+      parentRoute: typeof appRouteRoute
     }
     '/(app)/file-manager': {
       id: '/(app)/file-manager'
@@ -183,12 +202,14 @@ const appPostsRouteRouteWithChildren = appPostsRouteRoute._addFileChildren(
 interface appRouteRouteChildren {
   appPostsRouteRoute: typeof appPostsRouteRouteWithChildren
   appFileManagerRoute: typeof appFileManagerRoute
+  appSchemaFormDemoRoute: typeof appSchemaFormDemoRoute
   appIndexRoute: typeof appIndexRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
   appPostsRouteRoute: appPostsRouteRouteWithChildren,
   appFileManagerRoute: appFileManagerRoute,
+  appSchemaFormDemoRoute: appSchemaFormDemoRoute,
   appIndexRoute: appIndexRoute,
 }
 

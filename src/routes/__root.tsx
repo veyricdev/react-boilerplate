@@ -2,6 +2,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { Toaster } from '~/components/ui/sonner'
 import { env } from '~/env'
 import TanStackQueryDevtools from '~/integrations/tanstack-query/devtools'
 import StoreDevtools from '~/lib/demo-store-devtools'
@@ -44,6 +45,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body suppressHydrationWarning>
         {children}
+        <Toaster richColors />
         <TanStackDevtools
           config={{
             position: 'bottom-right',
