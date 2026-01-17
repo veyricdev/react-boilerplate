@@ -15,6 +15,7 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as appSchemaFormDemoRouteImport } from './routes/(app)/schema-form-demo'
 import { Route as appFileManagerRouteImport } from './routes/(app)/file-manager'
 import { Route as appPostsRouteRouteImport } from './routes/(app)/posts/route'
+import { Route as appDynamicTableDemoRouteRouteImport } from './routes/(app)/dynamic-table-demo/route'
 import { Route as appPostsChar123CategoryChar125RouteImport } from './routes/(app)/posts/{-$category}'
 import { Route as appPostsCategorySlugRouteImport } from './routes/(app)/posts/$category/$slug'
 
@@ -47,6 +48,12 @@ const appPostsRouteRoute = appPostsRouteRouteImport.update({
   path: '/posts',
   getParentRoute: () => appRouteRoute,
 } as any)
+const appDynamicTableDemoRouteRoute =
+  appDynamicTableDemoRouteRouteImport.update({
+    id: '/dynamic-table-demo',
+    path: '/dynamic-table-demo',
+    getParentRoute: () => appRouteRoute,
+  } as any)
 const appPostsChar123CategoryChar125Route =
   appPostsChar123CategoryChar125RouteImport.update({
     id: '/{-$category}',
@@ -60,6 +67,7 @@ const appPostsCategorySlugRoute = appPostsCategorySlugRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/dynamic-table-demo': typeof appDynamicTableDemoRouteRoute
   '/posts': typeof appPostsRouteRouteWithChildren
   '/file-manager': typeof appFileManagerRoute
   '/schema-form-demo': typeof appSchemaFormDemoRoute
@@ -69,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/posts/$category/$slug': typeof appPostsCategorySlugRoute
 }
 export interface FileRoutesByTo {
+  '/dynamic-table-demo': typeof appDynamicTableDemoRouteRoute
   '/posts': typeof appPostsRouteRouteWithChildren
   '/file-manager': typeof appFileManagerRoute
   '/schema-form-demo': typeof appSchemaFormDemoRoute
@@ -80,6 +89,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(app)': typeof appRouteRouteWithChildren
+  '/(app)/dynamic-table-demo': typeof appDynamicTableDemoRouteRoute
   '/(app)/posts': typeof appPostsRouteRouteWithChildren
   '/(app)/file-manager': typeof appFileManagerRoute
   '/(app)/schema-form-demo': typeof appSchemaFormDemoRoute
@@ -91,6 +101,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/dynamic-table-demo'
     | '/posts'
     | '/file-manager'
     | '/schema-form-demo'
@@ -100,6 +111,7 @@ export interface FileRouteTypes {
     | '/posts/$category/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/dynamic-table-demo'
     | '/posts'
     | '/file-manager'
     | '/schema-form-demo'
@@ -110,6 +122,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(app)'
+    | '/(app)/dynamic-table-demo'
     | '/(app)/posts'
     | '/(app)/file-manager'
     | '/(app)/schema-form-demo'
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appPostsRouteRouteImport
       parentRoute: typeof appRouteRoute
     }
+    '/(app)/dynamic-table-demo': {
+      id: '/(app)/dynamic-table-demo'
+      path: '/dynamic-table-demo'
+      fullPath: '/dynamic-table-demo'
+      preLoaderRoute: typeof appDynamicTableDemoRouteRouteImport
+      parentRoute: typeof appRouteRoute
+    }
     '/(app)/posts/{-$category}': {
       id: '/(app)/posts/{-$category}'
       path: '/{-$category}'
@@ -200,6 +220,7 @@ const appPostsRouteRouteWithChildren = appPostsRouteRoute._addFileChildren(
 )
 
 interface appRouteRouteChildren {
+  appDynamicTableDemoRouteRoute: typeof appDynamicTableDemoRouteRoute
   appPostsRouteRoute: typeof appPostsRouteRouteWithChildren
   appFileManagerRoute: typeof appFileManagerRoute
   appSchemaFormDemoRoute: typeof appSchemaFormDemoRoute
@@ -207,6 +228,7 @@ interface appRouteRouteChildren {
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
+  appDynamicTableDemoRouteRoute: appDynamicTableDemoRouteRoute,
   appPostsRouteRoute: appPostsRouteRouteWithChildren,
   appFileManagerRoute: appFileManagerRoute,
   appSchemaFormDemoRoute: appSchemaFormDemoRoute,
